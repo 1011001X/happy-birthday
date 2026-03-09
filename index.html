@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>生日快乐</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+
     <style>
         body {
             margin: 0;
             padding: 0;
             height: 100vh;
             overflow: hidden;
-            /* 全平台兼容的可爱手写体/楷体字体栈 */
-            font-family: 'Comic Sans MS', 'Kaiti SC', 'STKaiti', 'KaiTi', '楷体', 'FZShuTi', cursive;
+            /* 全局换成这种超级可爱的泡泡手写字体 */
+            font-family: 'ZCOOL KuaiLe', 'Comic Sans MS', cursive;
             position: relative;
             background: url('fig.png') center/cover no-repeat;
             background-color: #fdf2e3; 
@@ -31,48 +36,44 @@
 
         .start-btn {
             padding: 18px 35px;
-            font-size: 22px; 
+            font-size: 24px; 
             font-family: inherit;
             font-weight: bold;
-            background-color: #ff5f56;
+            background-color: #ff6b81;
             color: white;
             border: none;
             border-radius: 40px;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(255, 95, 86, 0.4);
+            box-shadow: 0 8px 25px rgba(255, 107, 129, 0.4);
             animation: pulse 1.5s infinite;
             outline: none;
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 8px 25px rgba(255, 95, 86, 0.4); }
-            50% { transform: scale(1.05); box-shadow: 0 12px 35px rgba(255, 95, 86, 0.6); }
-            100% { transform: scale(1); box-shadow: 0 8px 25px rgba(255, 95, 86, 0.4); }
+            0% { transform: scale(1); box-shadow: 0 8px 25px rgba(255, 107, 129, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 12px 35px rgba(255, 107, 129, 0.6); }
+            100% { transform: scale(1); box-shadow: 0 8px 25px rgba(255, 107, 129, 0.4); }
         }
 
-        /* 升级：纯粹可爱的卡片/泡泡风格 */
+        /* 飘落的小气泡弹窗（保持渐变色和淡化消失） */
         .blessing-card {
             position: absolute;
             width: auto;
             min-width: 140px;
             max-width: 220px;
-            padding: 20px 25px;
-            border-radius: 25px; /* 非常圆润的边角 */
+            padding: 15px 25px;
+            border-radius: 25px; 
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            color: #444; /* 深灰色字体在浅色渐变上非常清晰好看 */
+            font-size: 20px; /* 字体稍微调大，配合新字体 */
+            color: #555; 
             opacity: 0;
             animation: popUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            /* 给文字加一点非常微弱的白边，增加立体感 */
-            text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
         }
 
-        /* 慢慢消失的动画 */
         .fade-out {
             animation: fadeOutAnim 1.5s forwards !important;
         }
@@ -84,30 +85,34 @@
 
         @keyframes fadeOutAnim {
             0% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(0.8); } /* 缩小并透明 */
+            100% { opacity: 0; transform: scale(0.8); } 
         }
 
-        /* 最终专属压轴弹窗的样式 */
-        .final-window {
+        /* 👑 终极压轴文字：纯文字贴纸特效（无弹窗背景） */
+        .final-text {
             position: absolute;
-            bottom: 12%; /* 固定在页面下方 */
+            bottom: 12%; 
             left: 50%;
             transform: translateX(-50%) scale(0.5); 
-            width: 80%; /* 适配手机宽度 */
-            max-width: 320px;
-            padding: 35px 25px;
-            border-radius: 30px;
-            box-shadow: 0 15px 45px rgba(255, 107, 129, 0.6); /* 浪漫的粉红色发光阴影 */
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); /* 专属浪漫粉色渐变 */
-            color: #d63031; /* 深情红色文字 */
-            font-size: 22px;
-            font-weight: bold;
+            width: 100%; 
             text-align: center;
-            line-height: 1.6;
+            
+            /* 放大的字号 */
+            font-size: 38px; 
+            line-height: 1.5;
+            
+            /* 可爱的桃红色 */
+            color: #ff6b81; 
+            
+            /* 重点：利用多重文字阴影，打造出类似图片里的白色贴纸描边 + 底部发光效果 */
+            text-shadow: 
+                3px 3px 0 #fff, -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff,
+                0px 3px 0 #fff, 0px -3px 0 #fff, 3px 0px 0 #fff, -3px 0px 0 #fff,
+                0 12px 25px rgba(255, 107, 129, 0.7); /* 浪漫的发光底影 */
+                
             opacity: 0;
-            z-index: 99999; /* 永远在最上层 */
+            z-index: 99999; 
             animation: popUpCenter 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            border: 3px solid rgba(255, 255, 255, 0.6); /* 加一圈半透明的白边更像礼物 */
         }
 
         @keyframes popUpCenter {
@@ -133,43 +138,37 @@
             "天天开心", "生日快乐呀"
         ];
 
-        // 升级：高甜马卡龙纯色与梦幻渐变色混合库
         const backgrounds = [
-            "linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%)", // 梦幻紫蓝
-            "linear-gradient(135deg, #fdcbf1 0%, #e6dee9 100%)", // 樱花淡粉
-            "linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)", // 治愈水蓝
-            "linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)", // 薄荷清新
-            "#ffecd2", // 纯色：奶油橘
-            "#fce7f3", // 纯色：淡桃粉
-            "#e0f2fe", // 纯色：天空蓝
-            "#fef3c7"  // 纯色：软糖黄
+            "linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%)", 
+            "linear-gradient(135deg, #fdcbf1 0%, #e6dee9 100%)", 
+            "linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)", 
+            "linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)", 
+            "#ffecd2", "#fce7f3", "#e0f2fe", "#fef3c7"  
         ];
 
         let zIndexCounter = 10;
         let cardCount = 0;
-        const maxCards = 30; // 30个卡片后出压轴表白
+        const maxCards = 30; 
         let intervalId = null;
 
         function createCard() {
             if (cardCount >= maxCards) return;
 
             const card = document.createElement('div');
-            card.classList.add('blessing-card'); // 换成了全新的卡片样式
+            card.classList.add('blessing-card'); 
 
             const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
             const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
 
-            // 代码极度精简，直接填入背景和文字，去掉了所有的控制条
             card.style.background = randomBg;
             card.innerHTML = randomPhrase;
 
-            // 动态计算随机坐标
             const cardWidth = 200;
             const cardHeight = 80;
             const maxX = window.innerWidth - cardWidth;
             const maxY = window.innerHeight - cardHeight;
             
-            // 避开屏幕最下方（-180），为压轴弹窗留出视觉中心
+            // 避开屏幕最下方，为最终文字留出空间
             const randomX = Math.max(10, Math.floor(Math.random() * (maxX - 20)));
             const randomY = Math.max(10, Math.floor(Math.random() * (maxY - 180)));
 
@@ -180,35 +179,30 @@
             document.body.appendChild(card);
             cardCount++;
 
-            // 2.5秒后慢慢淡化并消失
             setTimeout(() => {
                 card.classList.add('fade-out');
                 setTimeout(() => card.remove(), 1500); 
             }, 2500);
 
-            // 检查是否该出压轴弹窗了
             if (cardCount >= maxCards && intervalId) {
                 clearInterval(intervalId);
-                setTimeout(showFinalCard, 3500);
+                setTimeout(showFinalText, 3500);
             }
         }
 
-        // 终极压轴表白弹窗
-        function showFinalCard() {
-            const finalCard = document.createElement('div');
-            finalCard.classList.add('final-window');
+        // 升级：去除弹窗框，直接显示超大号贴纸文字
+        function showFinalText() {
+            const finalText = document.createElement('div');
+            finalText.classList.add('final-text');
             
-            // 加入了一个小皇冠的 emoji 和你的表白文案
-            finalCard.innerHTML = `
-                👑<br>
+            finalText.innerHTML = `
                 祝我最最最最最爱的宝宝~<br>
                 22岁生日快乐！！！
             `;
             
-            document.body.appendChild(finalCard);
+            document.body.appendChild(finalText);
         }
 
-        // 启动按钮逻辑
         function startSurprise() {
             const bgm = document.getElementById('bgm');
             bgm.play().catch(error => {
@@ -222,11 +216,9 @@
                 startScreen.style.display = 'none';
             }, 500);
 
-            // 一开始先蹦出3个
             for(let i=0; i<3; i++) {
                 setTimeout(createCard, i * 200);
             }
-            // 之后每 600 毫秒生成一个
             intervalId = setInterval(createCard, 600);
         }
     </script>
