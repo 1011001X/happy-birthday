@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>生日快乐</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            position: relative;
+            /* 直接引用同文件夹下的图片 */
+            background: url('fig.png') center/cover no-repeat;
+            background-color: #fdf2e3; 
+        }
+
+        #startScreen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(255, 225, 232, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .start-btn {
+            padding: 18px 35px;
+            font-size: 20px;
+            font-weight: bold;
+            background-color: #ff5f56;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255, 95, 86, 0.4);
+            animation: pulse 1.5s infinite;
+            outline: none;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 8px 25px rgba(255, 95, 86, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 12px 35px rgba(255, 95, 86, 0.6); }
+            100% { transform: scale(1); box-shadow: 0 8px 25px rgba(255, 95, 86, 0.4); }
+        }
+
+        .mac-window {
+            position: absolute;
+            width: 220px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            background: #fff;
+            opacity: 0;
+            transform: scale(0.5);
+            animation: popUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popUp {
+            0% { opacity: 0; transform: scale(0.5) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .title-bar {
+            background-color: #f6f6f6;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .dots { display: flex; gap: 6px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot.red { background-color: #ff5f56; }
+        .dot.yellow { background-color: #ffbd2e; }
+        .dot.green { background-color: #27c93f; }
+
+        .title-text {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-left: -30px;
+        }
+
+        .content {
+            padding: 25px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="startScreen">
+        <button class="start-btn" onclick="startSurprise()">~请我的公主点击开启~</button>
+    </div>
+
+    <audio id="bgm" loop preload="auto">
+        <source src="happy.mp3" type="audio/mpeg">
+        您的浏览器不支持音频播放。
+    </audio>
+
+    <script>
+        const phrases = [
+            "今天也要开心哦", "梦想都会实现", "每天都要闪闪亮", 
+            "愿烦恼都走开", "我爱你~宝宝~", "祝你生日开心", 
+            "生日好心情", "记得多开心", "记得吃蛋糕", 
+            "你是最棒哒！", "你是最最最漂亮哒", "22岁生日快乐", 
+            "幸运加一再加一", "天天开心", "生日快乐呀",
+            "Happy Birthday Little White!" 
+        ];
+
+        const colors = [
+            "#fef3c7", "#e0f2fe", "#fce7f3", 
+            "#dcfce3", "#f3e8ff", "#ffedd5"
+        ];
+
+        let zIndexCounter = 10;
+        let cardCount = 0;
+        const maxCards = 40; 
+        let intervalId = null;
+
+        function createCard() {
+            if (cardCount >= maxCards) return;
+
+            const card = document.createElement('div');
+            card.classList.add('mac-window');
+
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+            card.innerHTML = `
+                <div class="title-bar">
+                    <div class="dots">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <span class="title-text">🎂 生日快乐</span>
+                </div>
+                <div class="content" style="background-color: ${randomColor};">
+                    ${randomPhrase}
+                </div>
+            `;
+
+            const cardWidth = 220;
+            const cardHeight = 100;
+            const maxX = window.innerWidth - cardWidth;
+            const maxY = window.innerHeight - cardHeight;
+            
+            const randomX = Math.max(10, Math.floor(Math.random() * (maxX - 20)));
+            const randomY = Math.max(10, Math.floor(Math.random() * (maxY - 20)));
+
+            card.style.left = randomX + 'px';
+            card.style.top = randomY + 'px';
+            card.style.zIndex = zIndexCounter++;
+
+            document.body.appendChild(card);
+            cardCount++;
+
+            if (cardCount >= maxCards && intervalId) {
+                clearInterval(intervalId);
+            }
+        }
+
+        function startSurprise() {
+            const bgm = document.getElementById('bgm');
+            bgm.play().catch(error => {
+                console.log("播放失败", error);
+                alert("播放音乐失败，请检查手机音量或允许浏览器播放声音噢~");
+            });
+
+            const startScreen = document.getElementById('startScreen');
+            startScreen.style.opacity = '0';
+            setTimeout(() => {
+                startScreen.style.display = 'none';
+            }, 500);
+
+            for(let i=0; i<3; i++) {
+                setTimeout(createCard, i * 200);
+            }
+            intervalId = setInterval(createCard, 800);
+        }
+    </script>
+
+</body>
+</html>
